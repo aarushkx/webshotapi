@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
 import CodeBlockDemo from "@/components/custom/codeblock-demo";
 import { ArrowRight, Users } from "lucide-react";
-import { APP_NAME } from "./lib/constants";
+import { APP_NAME } from "@/lib/constants";
 
 const LandingPage = () => {
     return (

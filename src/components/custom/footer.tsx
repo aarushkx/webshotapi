@@ -1,6 +1,6 @@
 "use client";
 
-import { APP_NAME } from "@/app/lib/constants";
+import { APP_NAME } from "@/lib/constants";
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();

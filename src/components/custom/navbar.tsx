@@ -10,7 +10,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Menu, X } from "lucide-react";
-import { GITHUB_REPO_LINK } from "@/app/lib/constants";
+import { GITHUB_REPO_LINK } from "@/lib/constants";
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);

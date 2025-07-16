@@ -1,7 +1,7 @@
 "use client";
 
 import { CodeBlock } from "@/components/ui/code-block";
-import { APP_URL } from "@/app/lib/constants";
+import { APP_URL } from "@/lib/constants";
 
 const CodeBlockDemo = () => {
     const code = `async function fetchScreenshot() {
