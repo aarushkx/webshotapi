@@ -19,6 +19,7 @@ export const GET = async (request: NextRequest) => {
                 "Content-Type": `image/${params.format}`,
                 "Content-Disposition": `inline; filename="screenshot.${params.format}"`,
                 "Cache-Control": "public, max-age=3600",
+                "Access-Control-Allow-Origin": "*",
             },
         });
     } catch (error: unknown) {
