@@ -43,8 +43,13 @@ const DemoPage = () => {
     const [previewUrl, setPreviewUrl] = useState<string>("");
     const [apiUrl, setApiUrl] = useState<string>("");
     const [errors, setErrors] = useState<Record<string, string>>({});
+    const [imageError, setImageError] = useState<boolean>(false);
     const [copySuccess, setCopySuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        setImageError(false);
+    }, [previewUrl]);
 
     const generateApiUrl = (data: ScreenshotOptions) => {
         const params = new URLSearchParams();
@@ -117,6 +122,7 @@ const DemoPage = () => {
         try {
             const validatedData = ScreenshotSchema.parse(formData);
             const url = generateApiUrl(validatedData);
+
             setApiUrl(decodeURIComponent(url));
             setPreviewUrl(url);
             setErrors({});
@@ -144,7 +150,7 @@ const DemoPage = () => {
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Left Side - Controls */}
-                    <Card className="shadow-lg">
+                    <Card className="shadow-sm">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Eye className="w-5 h-5" />
@@ -343,7 +349,7 @@ const DemoPage = () => {
                     </Card>
 
                     {/* Right Side - Preview */}
-                    <Card className="shadow-lg">
+                    <Card className="shadow-sm">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Eye className="w-5 h-5" />
@@ -376,12 +382,22 @@ const DemoPage = () => {
                                 <Label>Screenshot Preview</Label>
                                 <div className="border rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800">
                                     {isLoading ? (
-                                        // TODO: Replace by generating image
                                         <div className="h-64 flex items-center justify-center">
                                             <div className="text-center">
                                                 <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2" />
                                                 <p className="text-sm text-gray-500">
-                                                    Generating screenshot...
+                                                    Generating screenshot
+                                                    preview
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ) : imageError ? (
+                                        <div className="h-64 flex items-center justify-center">
+                                            <div className="text-center">
+                                                <AlertCircle className="w-8 h-8 mx-auto mb-2 text-red-500" />
+                                                <p className="text-sm text-red-500">
+                                                    Failed to load screenshot
+                                                    preview
                                                 </p>
                                             </div>
                                         </div>
@@ -391,11 +407,7 @@ const DemoPage = () => {
                                             src={previewUrl}
                                             alt="Screenshot preview"
                                             className="w-full h-auto max-h-96 object-contain"
-                                            // TODO: Replace by error image
-                                            onError={(e) => {
-                                                e.currentTarget.style.display =
-                                                    "none";
-                                            }}
+                                            onError={() => setImageError(true)}
                                         />
                                     ) : (
                                         <div className="h-64 flex items-center justify-center">
@@ -451,7 +463,7 @@ const DemoPage = () => {
                                         </Badge>
                                     )}
                                     <Badge variant="secondary">
-                                        {formData.timeout ?? 0}ms timeout
+                                        {formData.timeout}ms timeout
                                     </Badge>
                                 </div>
                             </div>
