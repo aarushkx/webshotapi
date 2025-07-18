@@ -30,7 +30,7 @@ export const GET = async (request: NextRequest) => {
 
         if (error instanceof ZodError) {
             status = 400;
-            message = error.issues.map((e) => e.message).join("; ");
+            message = error.issues.map((e) => e.message).join(". ");
         } else if (error instanceof Error) {
             message = error.message;
         }

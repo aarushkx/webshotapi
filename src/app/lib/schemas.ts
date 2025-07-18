@@ -10,7 +10,7 @@ export const ScreenshotSchema = z.object({
     mobile: z.coerce.boolean().default(false),
     // Max allowed timeout is fixed to 9000ms (9s) to ensure Puppeteer has enough time
     // to process the request within Vercel's 10s serverless function limit allowed in the Hobby (Free) Plan
-    timeout: z.coerce.number().min(0).default(9000),
+    timeout: z.coerce.number().min(0).max(9000).default(0),
 });
 
 export type ScreenshotOptions = z.infer<typeof ScreenshotSchema>;
