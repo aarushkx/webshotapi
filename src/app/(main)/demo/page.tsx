@@ -361,6 +361,12 @@ const DemoPage = () => {
                             <div className="space-y-2">
                                 <Label>Generated API URL</Label>
                                 <div className="flex gap-2">
+                                    <Badge
+                                        variant="outline"
+                                        className="text-md px-3"
+                                    >
+                                        GET
+                                    </Badge>
                                     <Input value={apiUrl} readOnly />
                                     <Button
                                         size="icon"
