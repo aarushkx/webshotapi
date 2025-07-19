@@ -1,14 +1,36 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
 import CodeBlockDemo from "@/components/custom/codeblock-demo";
 import { ArrowRight, Users } from "lucide-react";
 import { APP_NAME } from "@/lib/constants";
 
 const LandingPage = () => {
+    const [screenshotsCount, setScreenshotsCount] = useState<number | null>(
+        null
+    );
+
+    const fetchSceenshotCount = async () => {
+        try {
+            const response = await fetch("/api/stats");
+            if (!response.ok) throw new Error("Failed to fetch screenshots");
+
+            const data = await response.json();
+            setScreenshotsCount(data.screenshots);
+        } catch (error) {
+            toast.error("Failed to fetch screenshots count");
+        }
+    };
+
+    useEffect(() => {
+        fetchSceenshotCount();
+    }, []);
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
             <section className="container mx-auto pt-20 pb-16 px-4 sm:px-6 lg:px-16">
@@ -36,7 +58,9 @@ const LandingPage = () => {
                                 className="px-3 py-1 text-sm"
                             >
                                 <Users className="w-3 h-3 mr-1" />
-                                28,000+ screenshots generated
+                                {screenshotsCount === null
+                                    ? "Loading…"
+                                    : `${screenshotsCount.toLocaleString()} screenshots generated`}
                             </Badge>
                         </div>
 
