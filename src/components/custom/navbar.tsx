@@ -16,7 +16,7 @@ const Navbar = () => {
     const [open, setOpen] = useState(false);
 
     return (
-        <nav className="fixed top-0 left-0 w-full border-b bg-white shadow-xs z-50">
+        <nav className="fixed top-0 left-0 w-full border-b bg-white dark:bg-slate-900 shadow-xs z-50">
             <div className="container mx-auto flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
                 <Link href="/" className="text-xl font-bold">
                     WebShotAPI
