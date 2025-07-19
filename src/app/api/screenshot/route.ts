@@ -2,17 +2,27 @@ import { NextRequest, NextResponse } from "next/server";
 import { ScreenshotSchema } from "@/app/lib/schemas";
 import { takeScreenshot } from "@/app/lib/screenshot";
 import { mapParams } from "@/app/lib/map-params";
+import { connectToDatabase } from "@/db/db-connect";
+import { Stats } from "@/models/stats.model";
 import { ZodError } from "zod";
 
 export const GET = async (request: NextRequest) => {
     const searchParams = request.nextUrl.searchParams;
 
     try {
+        await connectToDatabase();
+
         const raw = Object.fromEntries(searchParams.entries());
         const mapped = mapParams(raw);
         const params = ScreenshotSchema.parse(mapped);
 
         const image = await takeScreenshot(params);
+
+        await Stats.findOneAndUpdate(
+            {},
+            { $inc: { screenshots: 1 } },
+            { upsert: true, new: true }
+        );
 
         return new NextResponse(image, {
             headers: {
