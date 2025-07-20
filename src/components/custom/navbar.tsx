@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
     Popover,
@@ -10,6 +9,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Menu, X } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 import { GITHUB_REPO_LINK } from "@/lib/constants";
 
 const Navbar = () => {
@@ -42,15 +42,7 @@ const Navbar = () => {
                             rel="noopener noreferrer"
                             className="flex items-center gap-1"
                         >
-                            Star on GitHub{" "}
-                            <span>
-                                <Image
-                                    src="/icons/github.svg"
-                                    alt="GitHub"
-                                    width={16}
-                                    height={16}
-                                />
-                            </span>
+                            Star on GitHub <FaGithub size={16} />
                         </a>
                     </Button>
                 </div>
@@ -112,12 +104,7 @@ const Navbar = () => {
                                     className="flex items-center gap-1"
                                 >
                                     Star on GitHub
-                                    <Image
-                                        src="/icons/github.svg"
-                                        alt="GitHub"
-                                        width={16}
-                                        height={16}
-                                    />
+                                    <FaGithub size={16} />
                                 </a>
                             </Button>
                         </PopoverContent>
