@@ -1,24 +1,42 @@
-import puppeteer from "puppeteer";
+import puppeteer, { type Browser } from "puppeteer";
 import type { ScreenshotOptions } from "./schemas";
 import { KnownDevices } from "puppeteer";
 
 export const takeScreenshot = async (
     options: ScreenshotOptions
-): Promise<string | undefined> => {
+): Promise<string | Buffer | undefined> => {
     const { url, width, height, format, quality, fullPage, mobile, timeout } =
         options;
 
-    const browser = await puppeteer.launch({
-        headless: true,
-        args: [
-            "--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-dev-shm-usage",
-            "--disable-gpu",
-            `--window-size=${width},${height}`,
-            "--disable-translate",
-        ],
-    });
+    let browser: Browser | undefined | null;
+
+    if (process.env.NODE_ENV === "production") {
+        const chromium = require("@sparticuz/chromium");
+        chromium.setGraphicsMode = false;
+        const puppeteer = require("puppeteer-core");
+        browser = await puppeteer.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath(),
+            headless: chromium.headless,
+        });
+    } else {
+        const puppeteer = require("puppeteer");
+        browser = await puppeteer.launch({
+            headless: true,
+            args: [
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+                `--window-size=${width},${height}`,
+                "--disable-translate",
+            ],
+        });
+    }
+
+    if (!browser) throw new Error("Failed to launch browser");
+
     const page = await browser.newPage();
 
     try {
