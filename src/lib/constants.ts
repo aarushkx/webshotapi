@@ -46,7 +46,7 @@ export const APP_KEYWORDS = [
     "convert URL to WebP",
 ];
 
-export const APP_URL = "http://localhost:3000";
+export const APP_URL = "https://webshotapi.vercel.app";
 
 export const API_BASE = `${APP_URL}/api/screenshot`;
 
