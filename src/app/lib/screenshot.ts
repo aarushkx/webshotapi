@@ -1,4 +1,3 @@
-import puppeteer, { type Browser } from "puppeteer";
 import type { ScreenshotOptions } from "./schemas";
 import { KnownDevices } from "puppeteer";
 
@@ -8,20 +7,29 @@ export const takeScreenshot = async (
     const { url, width, height, format, quality, fullPage, mobile, timeout } =
         options;
 
-    let browser: Browser | undefined | null;
+    let browser;
 
     if (process.env.NODE_ENV === "production") {
-        const chromium = require("@sparticuz/chromium");
-        chromium.setGraphicsMode = false;
-        const puppeteer = require("puppeteer-core");
+        const chromiumModule = await import("@sparticuz/chromium");
+        const puppeteerModule = await import("puppeteer-core");
+
+        const chromium = chromiumModule.default || chromiumModule;
+        const puppeteer = puppeteerModule.default || puppeteerModule;
+
+        if (chromium.setGraphicsMode) chromium.setGraphicsMode = false;
+
+        const execPath = await chromium.executablePath();
+
         browser = await puppeteer.launch({
             args: chromium.args,
-            defaultViewport: chromium.defaultViewport,
-            executablePath: chromium.executablePath,
-            headless: chromium.headless,
+            defaultViewport: (chromium as any).defaultViewport,
+            executablePath: execPath,
+            headless: (chromium as any).headless,
         });
     } else {
-        const puppeteer = require("puppeteer");
+        const puppeteerModule = await import("puppeteer");
+        const puppeteer = puppeteerModule.default || puppeteerModule;
+
         browser = await puppeteer.launch({
             headless: true,
             args: [
