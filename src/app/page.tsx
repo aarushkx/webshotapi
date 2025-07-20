@@ -55,7 +55,7 @@ const LandingPage = () => {
                         <p className="text-xl text-slate-600 dark:text-slate-300 mb-6">
                             Simple, fast, and reliable screenshot API for your
                             applications. Generate high-quality screenshots in
-                            seconds with our robust infrastructure.
+                            seconds using robust, efficient infrastructure.
                         </p>
 
                         <div className="flex items-center justify-center lg:justify-start gap-4 mb-8">
