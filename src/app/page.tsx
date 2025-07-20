@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
 import CodeBlockDemo from "@/components/custom/codeblock-demo";
+import { motion } from "framer-motion";
 import { ArrowRight, Users } from "lucide-react";
 import { APP_NAME } from "@/lib/constants";
 
@@ -36,7 +37,12 @@ const LandingPage = () => {
             <section className="container mx-auto pt-20 pb-16 px-4 sm:px-6 lg:px-16">
                 <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
                     {/* Left Content */}
-                    <div className="max-w-2xl mt-8 text-center lg:text-left">
+                    <motion.div
+                        className="max-w-2xl mt-8 text-center lg:text-left"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
                         <h1 className="text-5xl font-bold sm:font-bold bg-gradient-to-r from-slate-900 to-slate-600 dark:from-slate-100 dark:to-slate-400 bg-clip-text text-transparent mb-6 leading-tight text-center lg:text-left">
                             Capture Website Screenshots with{" "}
                             <PointerHighlight containerClassName="inline-flex justify-center lg:justify-start">
@@ -82,12 +88,17 @@ const LandingPage = () => {
                                 <Link href="/docs">View Documentation</Link>
                             </Button>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Right Content */}
-                    <div className="w-full max-w-none md:max-w-xl lg:max-w-lg">
+                    <motion.div
+                        className="w-full max-w-none md:max-w-xl lg:max-w-lg"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                    >
                         <CodeBlockDemo />
-                    </div>
+                    </motion.div>
                 </div>
             </section>
         </div>

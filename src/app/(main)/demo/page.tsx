@@ -16,6 +16,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 import {
     Copy,
     Download,
@@ -140,341 +141,376 @@ const DemoPage = () => {
     return (
         <div className="min-h-screen pt-16 pb-14 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
             <div className="container mx-auto px-6 py-8">
-                <div className="mb-8 text-center">
+                <motion.div
+                    className="mb-8 text-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                >
                     <h1 className="text-3xl font-bold mb-2">{APP_NAME} Demo</h1>
                     <p className="text-slate-600 dark:text-slate-300">
                         Test the API with different parameters and see the
                         results in real-time
                     </p>
-                </div>
+                </motion.div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Left Side - Controls */}
-                    <Card className="shadow-sm">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <Eye className="w-5 h-5" />
-                                API Parameters
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-6">
-                            {/* URL Input */}
-                            <div className="space-y-2">
-                                <Label htmlFor="url">
-                                    Website URL
-                                    <span className="text-red-500">*</span>
-                                </Label>
-                                <Input
-                                    id="url"
-                                    type="url"
-                                    placeholder="https://example.com"
-                                    value={formData.url}
-                                    onChange={(e) =>
-                                        handleInputChange("url", e.target.value)
-                                    }
-                                    className={
-                                        errors.url ? "border-red-500" : ""
-                                    }
-                                />
-                                {errors.url && (
-                                    <p className="text-sm text-red-500 flex items-center gap-1">
-                                        <AlertCircle className="w-4 h-4" />
-                                        {errors.url}
-                                    </p>
-                                )}
-                            </div>
-
-                            {/* Dimensions */}
-                            <div className="grid grid-cols-2 gap-4">
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.1 }}
+                    >
+                        <Card className="shadow-sm">
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    <Eye className="w-5 h-5" />
+                                    API Parameters
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                {/* URL Input */}
                                 <div className="space-y-2">
-                                    <Label htmlFor="width">Width (px)</Label>
+                                    <Label htmlFor="url">
+                                        Website URL
+                                        <span className="text-red-500">*</span>
+                                    </Label>
                                     <Input
-                                        id="width"
-                                        type="number"
-                                        min="1"
-                                        value={formData.width ?? ""}
+                                        id="url"
+                                        type="url"
+                                        placeholder="https://example.com"
+                                        value={formData.url}
                                         onChange={(e) =>
                                             handleInputChange(
-                                                "width",
+                                                "url",
                                                 e.target.value
                                             )
                                         }
                                         className={
-                                            errors.width ? "border-red-500" : ""
+                                            errors.url ? "border-red-500" : ""
                                         }
                                     />
-                                    {errors.width && (
-                                        <p className="text-sm text-red-500">
-                                            {errors.width}
+                                    {errors.url && (
+                                        <p className="text-sm text-red-500 flex items-center gap-1">
+                                            <AlertCircle className="w-4 h-4" />
+                                            {errors.url}
                                         </p>
                                     )}
                                 </div>
+
+                                {/* Dimensions */}
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="width">
+                                            Width (px)
+                                        </Label>
+                                        <Input
+                                            id="width"
+                                            type="number"
+                                            min="1"
+                                            value={formData.width ?? ""}
+                                            onChange={(e) =>
+                                                handleInputChange(
+                                                    "width",
+                                                    e.target.value
+                                                )
+                                            }
+                                            className={
+                                                errors.width
+                                                    ? "border-red-500"
+                                                    : ""
+                                            }
+                                        />
+                                        {errors.width && (
+                                            <p className="text-sm text-red-500">
+                                                {errors.width}
+                                            </p>
+                                        )}
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="height">
+                                            Height (px)
+                                        </Label>
+                                        <Input
+                                            id="height"
+                                            type="number"
+                                            min="1"
+                                            value={formData.height ?? ""}
+                                            onChange={(e) =>
+                                                handleInputChange(
+                                                    "height",
+                                                    e.target.value
+                                                )
+                                            }
+                                            className={
+                                                errors.height
+                                                    ? "border-red-500"
+                                                    : ""
+                                            }
+                                        />
+                                        {errors.height && (
+                                            <p className="text-sm text-red-500">
+                                                {errors.height}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Format */}
                                 <div className="space-y-2">
-                                    <Label htmlFor="height">Height (px)</Label>
+                                    <Label>Format</Label>
+                                    <Select
+                                        value={formData.format}
+                                        onValueChange={(v) =>
+                                            handleInputChange("format", v)
+                                        }
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="png">
+                                                PNG
+                                            </SelectItem>
+                                            <SelectItem value="jpeg">
+                                                JPEG
+                                            </SelectItem>
+                                            <SelectItem value="webp">
+                                                WebP
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+
+                                {/* Quality */}
+                                <div className="space-y-2">
+                                    <Label>Quality: {formData.quality}%</Label>
+                                    <Slider
+                                        value={[formData.quality]}
+                                        onValueChange={(v) =>
+                                            handleInputChange("quality", v[0])
+                                        }
+                                        max={100}
+                                        min={1}
+                                        step={1}
+                                        className="w-full"
+                                    />
+                                </div>
+
+                                {/* Timeout */}
+                                <div className="space-y-2">
+                                    <Label htmlFor="timeout">
+                                        Timeout (ms)
+                                    </Label>
                                     <Input
-                                        id="height"
+                                        id="timeout"
                                         type="number"
-                                        min="1"
-                                        value={formData.height ?? ""}
+                                        min="0"
+                                        value={formData.timeout}
                                         onChange={(e) =>
                                             handleInputChange(
-                                                "height",
+                                                "timeout",
                                                 e.target.value
                                             )
                                         }
                                         className={
-                                            errors.height
+                                            errors.timeout
                                                 ? "border-red-500"
                                                 : ""
                                         }
                                     />
-                                    {errors.height && (
+                                    {errors.timeout && (
                                         <p className="text-sm text-red-500">
-                                            {errors.height}
+                                            {errors.timeout}
                                         </p>
                                     )}
                                 </div>
-                            </div>
 
-                            {/* Format */}
-                            <div className="space-y-2">
-                                <Label>Format</Label>
-                                <Select
-                                    value={formData.format}
-                                    onValueChange={(v) =>
-                                        handleInputChange("format", v)
-                                    }
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="png">PNG</SelectItem>
-                                        <SelectItem value="jpeg">
-                                            JPEG
-                                        </SelectItem>
-                                        <SelectItem value="webp">
-                                            WebP
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
+                                {/* Boolean Options */}
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <Label htmlFor="fullPage">
+                                            Full Page Screenshot
+                                        </Label>
+                                        <Switch
+                                            id="fullPage"
+                                            checked={formData.fullPage}
+                                            onCheckedChange={(f) =>
+                                                handleInputChange("fullPage", f)
+                                            }
+                                        />
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <Label htmlFor="mobile">
+                                            Mobile Device
+                                        </Label>
+                                        <Switch
+                                            id="mobile"
+                                            checked={formData.mobile}
+                                            onCheckedChange={(f) =>
+                                                handleInputChange("mobile", f)
+                                            }
+                                        />
+                                    </div>
+                                </div>
 
-                            {/* Quality */}
-                            <div className="space-y-2">
-                                <Label>Quality: {formData.quality}%</Label>
-                                <Slider
-                                    value={[formData.quality]}
-                                    onValueChange={(v) =>
-                                        handleInputChange("quality", v[0])
+                                {/* Test Button */}
+                                <Button
+                                    onClick={handleTestApi}
+                                    disabled={
+                                        isLoading ||
+                                        Object.keys(errors).length > 0
                                     }
-                                    max={100}
-                                    min={1}
-                                    step={1}
                                     className="w-full"
-                                />
-                            </div>
-
-                            {/* Timeout */}
-                            <div className="space-y-2">
-                                <Label htmlFor="timeout">Timeout (ms)</Label>
-                                <Input
-                                    id="timeout"
-                                    type="number"
-                                    min="0"
-                                    value={formData.timeout}
-                                    onChange={(e) =>
-                                        handleInputChange(
-                                            "timeout",
-                                            e.target.value
-                                        )
-                                    }
-                                    className={
-                                        errors.timeout ? "border-red-500" : ""
-                                    }
-                                />
-                                {errors.timeout && (
-                                    <p className="text-sm text-red-500">
-                                        {errors.timeout}
-                                    </p>
-                                )}
-                            </div>
-
-                            {/* Boolean Options */}
-                            <div className="space-y-4">
-                                <div className="flex items-center justify-between">
-                                    <Label htmlFor="fullPage">
-                                        Full Page Screenshot
-                                    </Label>
-                                    <Switch
-                                        id="fullPage"
-                                        checked={formData.fullPage}
-                                        onCheckedChange={(f) =>
-                                            handleInputChange("fullPage", f)
-                                        }
-                                    />
-                                </div>
-                                <div className="flex items-center justify-between">
-                                    <Label htmlFor="mobile">
-                                        Mobile Device
-                                    </Label>
-                                    <Switch
-                                        id="mobile"
-                                        checked={formData.mobile}
-                                        onCheckedChange={(f) =>
-                                            handleInputChange("mobile", f)
-                                        }
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Test Button */}
-                            <Button
-                                onClick={handleTestApi}
-                                disabled={
-                                    isLoading || Object.keys(errors).length > 0
-                                }
-                                className="w-full"
-                            >
-                                {isLoading ? (
-                                    <>
-                                        <Loader2 className="w-4 h-4 animate-spin" />
-                                        Generating...
-                                    </>
-                                ) : (
-                                    "Test API"
-                                )}
-                            </Button>
-                        </CardContent>
-                    </Card>
+                                >
+                                    {isLoading ? (
+                                        <>
+                                            <Loader2 className="w-4 h-4 animate-spin" />
+                                            Generating...
+                                        </>
+                                    ) : (
+                                        "Test API"
+                                    )}
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    </motion.div>
 
                     {/* Right Side - Preview */}
-                    <Card className="shadow-sm">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <Eye className="w-5 h-5" />
-                                Live Preview
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-6">
-                            {/* Generated URL */}
-                            <div className="space-y-2">
-                                <Label>Generated API URL</Label>
-                                <div className="flex gap-2">
-                                    <Badge
-                                        variant="outline"
-                                        className="text-md px-3"
-                                    >
-                                        GET
-                                    </Badge>
-                                    <Input value={apiUrl} readOnly />
-                                    <Button
-                                        size="icon"
-                                        variant="outline"
-                                        onClick={handleCopyUrl}
-                                        className="flex-shrink-0"
-                                    >
-                                        {copySuccess ? (
-                                            <CheckCircle className="w-4 h-4 text-green-500" />
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                    >
+                        <Card className="shadow-sm">
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    <Eye className="w-5 h-5" />
+                                    Live Preview
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                {/* Generated URL */}
+                                <div className="space-y-2">
+                                    <Label>Generated API URL</Label>
+                                    <div className="flex gap-2">
+                                        <Badge
+                                            variant="outline"
+                                            className="text-md px-3"
+                                        >
+                                            GET
+                                        </Badge>
+                                        <Input value={apiUrl} readOnly />
+                                        <Button
+                                            size="icon"
+                                            variant="outline"
+                                            onClick={handleCopyUrl}
+                                            className="flex-shrink-0"
+                                        >
+                                            {copySuccess ? (
+                                                <CheckCircle className="w-4 h-4 text-green-500" />
+                                            ) : (
+                                                <Copy className="w-4 h-4" />
+                                            )}
+                                        </Button>
+                                    </div>
+                                </div>
+
+                                {/* Preview Image */}
+                                <div className="space-y-2">
+                                    <Label>Screenshot Preview</Label>
+                                    <div className="border rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800">
+                                        {isLoading ? (
+                                            <div className="h-64 flex items-center justify-center">
+                                                <div className="text-center">
+                                                    <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2" />
+                                                    <p className="text-sm text-gray-500">
+                                                        Generating screenshot
+                                                        preview
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        ) : imageError ? (
+                                            <div className="h-64 flex items-center justify-center">
+                                                <div className="text-center">
+                                                    <AlertCircle className="w-8 h-8 mx-auto mb-2 text-red-500" />
+                                                    <p className="text-sm text-red-500">
+                                                        Failed to load
+                                                        screenshot preview
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        ) : previewUrl &&
+                                          Object.keys(errors).length === 0 ? (
+                                            <img
+                                                src={previewUrl}
+                                                alt="Screenshot preview"
+                                                className="w-full h-auto max-h-96 object-contain"
+                                                onError={() =>
+                                                    setImageError(true)
+                                                }
+                                            />
                                         ) : (
-                                            <Copy className="w-4 h-4" />
+                                            <div className="h-64 flex items-center justify-center">
+                                                <div className="text-center">
+                                                    <Eye className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+                                                    <p className="text-sm text-gray-500">
+                                                        {Object.keys(errors)
+                                                            .length > 0
+                                                            ? "Fix errors to see preview"
+                                                            : "Screenshot will appear here"}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         )}
-                                    </Button>
+                                    </div>
                                 </div>
-                            </div>
 
-                            {/* Preview Image */}
-                            <div className="space-y-2">
-                                <Label>Screenshot Preview</Label>
-                                <div className="border rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800">
-                                    {isLoading ? (
-                                        <div className="h-64 flex items-center justify-center">
-                                            <div className="text-center">
-                                                <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2" />
-                                                <p className="text-sm text-gray-500">
-                                                    Generating screenshot
-                                                    preview
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ) : imageError ? (
-                                        <div className="h-64 flex items-center justify-center">
-                                            <div className="text-center">
-                                                <AlertCircle className="w-8 h-8 mx-auto mb-2 text-red-500" />
-                                                <p className="text-sm text-red-500">
-                                                    Failed to load screenshot
-                                                    preview
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ) : previewUrl &&
-                                      Object.keys(errors).length === 0 ? (
-                                        <img
-                                            src={previewUrl}
-                                            alt="Screenshot preview"
-                                            className="w-full h-auto max-h-96 object-contain"
-                                            onError={() => setImageError(true)}
-                                        />
-                                    ) : (
-                                        <div className="h-64 flex items-center justify-center">
-                                            <div className="text-center">
-                                                <Eye className="w-8 h-8 mx-auto mb-2 text-gray-400" />
-                                                <p className="text-sm text-gray-500">
-                                                    {Object.keys(errors)
-                                                        .length > 0
-                                                        ? "Fix errors to see preview"
-                                                        : "Screenshot will appear here"}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
+                                {/* Download Button */}
+                                <Button
+                                    onClick={handleDownload}
+                                    disabled={
+                                        !previewUrl ||
+                                        Object.keys(errors).length > 0
+                                    }
+                                    variant="outline"
+                                    className="w-full"
+                                >
+                                    <Download className="w-4 h-4" />
+                                    Download Screenshot
+                                </Button>
 
-                            {/* Download Button */}
-                            <Button
-                                onClick={handleDownload}
-                                disabled={
-                                    !previewUrl ||
-                                    Object.keys(errors).length > 0
-                                }
-                                variant="outline"
-                                className="w-full"
-                            >
-                                <Download className="w-4 h-4" />
-                                Download Screenshot
-                            </Button>
-
-                            {/* Active Parameters */}
-                            <div className="space-y-2">
-                                <Label>Active Parameters</Label>
-                                <div className="flex flex-wrap gap-2">
-                                    <Badge variant="secondary">
-                                        {formData.format.toUpperCase()}
-                                    </Badge>
-                                    <Badge variant="secondary">
-                                        {formData.width}x{formData.height}
-                                    </Badge>
-                                    <Badge variant="secondary">
-                                        {formData.quality}% quality
-                                    </Badge>
-                                    {formData.fullPage && (
+                                {/* Active Parameters */}
+                                <div className="space-y-2">
+                                    <Label>Active Parameters</Label>
+                                    <div className="flex flex-wrap gap-2">
                                         <Badge variant="secondary">
-                                            Full Page
+                                            {formData.format.toUpperCase()}
                                         </Badge>
-                                    )}
-                                    {formData.mobile && (
                                         <Badge variant="secondary">
-                                            Mobile
+                                            {formData.width}x{formData.height}
                                         </Badge>
-                                    )}
-                                    <Badge variant="secondary">
-                                        {formData.timeout}ms timeout
-                                    </Badge>
+                                        <Badge variant="secondary">
+                                            {formData.quality}% quality
+                                        </Badge>
+                                        {formData.fullPage && (
+                                            <Badge variant="secondary">
+                                                Full Page
+                                            </Badge>
+                                        )}
+                                        {formData.mobile && (
+                                            <Badge variant="secondary">
+                                                Mobile
+                                            </Badge>
+                                        )}
+                                        <Badge variant="secondary">
+                                            {formData.timeout}ms timeout
+                                        </Badge>
+                                    </div>
                                 </div>
-                            </div>
-                        </CardContent>
-                    </Card>
+                            </CardContent>
+                        </Card>
+                    </motion.div>
                 </div>
             </div>
         </div>
