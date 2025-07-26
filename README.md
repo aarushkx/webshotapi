@@ -77,6 +77,10 @@ Feel free to mix and match these parameters to get exactly what you need.
 
 -   **Database**: The app uses MongoDB to track usage stats. Just update the `MONGODB_URI` in your `.env.local` file to connect to your database.
 
+## 🌐 Live
+
+Visit the live [WebshotAPI website](http://webshotapi.vercel.app).
+
 ## 🤝 Contributing
 
 WebShotAPI is open to contributions. Here’s how you can get started:
